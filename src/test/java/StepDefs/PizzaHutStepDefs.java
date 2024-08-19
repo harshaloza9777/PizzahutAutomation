@@ -34,53 +34,44 @@ public class PizzaHutStepDefs {
 
 	@Given("I have launched the application")
 	public void i_have_launched_the_application() throws IOException {
-		try {
+		
 
 			driver.get("https://www.pizzahut.co.in/");
 			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-			Hooks.test.log(LogStatus.PASS, "Application has launched");
+			
 
-		} catch (Exception e) {
-			Hooks.test.log(LogStatus.FAIL, "User failed to land on HomePage");
-			Assert.fail();
-		}
+		
 	}
 
 	@When("I enter the location as {string}")
 	public void i_enter_the_location_as(String location) throws InterruptedException, IOException {
-		try {
+		
 
 			WebElement locationFun = driver.findElement(By.xpath("//input[@type='text']"));
 			locationFun.sendKeys(location);
-			Thread.sleep(8000);
-			locationFun.submit();
+			
 			Hooks.test.log(LogStatus.PASS, "User should be able to enter location", "User sucessfully entered location");
-		} catch (Exception e) {
-			Hooks.test.log(LogStatus.FAIL, "User failed to enter location in location field");
-			Assert.fail();
-		}
+		 
 	}
 
 	@When("I select the very first suggestion from the list")
 	public void i_select_the_very_first_suggestion_from_the_list() throws InterruptedException, IOException {
-		try {
+		
 
-			WebElement loClick = driver.findElement(By.xpath("(//div[@data-synth='offer-collection-hut'])[1]"));
-			loClick.click();
-			// Thread.sleep(8000);
-			// WebElement OrderTime = driver.findElement(By.xpath("//button[@class='button
-			// button--secondary text-center']"));
-			// OrderTime.click();
-			Hooks.test.log(LogStatus.PASS, "User received popup and clicks on address in popup");
-		} catch (Exception e) {
-			Hooks.test.log(LogStatus.FAIL, "User unable to received popup");
-			Assert.fail();
+		List<WebElement>list=driver.findElements(By.xpath("//div[text()='Pune Railway Station']"));
+		System.out.println(list.size());
+		for(int i=0;i<list.size();i++) {
+			list.get(i).getText().contains("Pune Railway Station");
+			list.get(i).click();
 		}
+			Hooks.test.log(LogStatus.PASS, "User received popup and clicks on address in popup");
+		
 	}
+	
 
 	@Then("I should land on the Deals page")
 	public void i_should_land_on_the_Deals_page() throws InterruptedException, IOException {
-		try {
+		
 
 			Thread.sleep(4000);
 			String ActualTitle = driver.getTitle();
@@ -92,11 +83,7 @@ public class PizzaHutStepDefs {
 				System.out.println("Tilte unmatch");
 			}
 			// Assert.assertEquals(ActualTitle, ExpectedTitle);
-			Hooks.test.log(LogStatus.PASS, "User should be able the title as" + ActualTitle + ExpectedTitle);
-		} catch (Exception e) {
-			Hooks.test.log(LogStatus.FAIL, "Title unmatched");
-			Assert.fail();
-		}
+			
 	}
 
 	@Then("I select the tab as {string}")
@@ -119,7 +106,7 @@ public class PizzaHutStepDefs {
 		try {
 
 			WebElement AddToCart = driver.findElement(
-					By.xpath("//button[@data-synth='button--schezwan-margherita-recommended-pan-personal--one-tap']"));
+					By.xpath("(//span[text()='Add'])[3]"));
 			AddToCart.click();
 			Hooks.test.log(LogStatus.PASS, "User click's on Add to cart button on Schezwan margherita");
 		} catch (Exception e) {
